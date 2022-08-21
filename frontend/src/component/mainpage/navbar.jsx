@@ -7,22 +7,33 @@ import {
     Navbar,
 
 } from 'react-bootstrap';
-import {useSelector, useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom'
-import { LogOut, reset } from '../features/authSlice';
+import axios from 'axios'
+// import { LogOut, reset } from '../features/authSlice';
+
 import './styles.css'
 
 
 const NavBar = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {user} = useSelector((state) => state.auth)
 
-    const logout = () =>{
-        dispatch(LogOut());
-        dispatch(reset())
-        navigate("/")
+
+    const Logout = async () => {
+        try {
+            await axios.delete('http://localhost:5000/logout');
+            navigate('/')
+        } catch (error) {
+            console.log(error);
+        }
+
     }
+
+    // const logout = () =>{
+    //     dispatch(LogOut());
+    //     dispatch(reset())
+    //     navigate("/")
+    // }
     return (
         <div>
             <Navbar bg="light" expand='md' sticky="top">
@@ -45,13 +56,13 @@ const NavBar = () => {
                         <Nav className="d-flex my-2 my-lg-0">
                             <Nav.Link>HOME</Nav.Link>
                             <Nav.Link>About Us</Nav.Link>
-                            <Button variant="outline-danger" onClick={logout}>Logout</Button>
+                            <Button variant="outline-danger" onClick={Logout}>Logout</Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            
-            
+
+
         </div>
     )
 }

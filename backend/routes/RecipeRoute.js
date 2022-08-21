@@ -6,21 +6,12 @@ import{
     updateRecipe,
     deleteRecipe
 } from '../controllers/RecipesController.js'
-import { verifyUser } from '../middleware/AuthUser.js';
-
+import { verifyToken } from '../middleware/VerifyToken.js';
 const router = express.Router();
-
-router.get('/recipes',  verifyUser, getRecipe);
-router.get('/recipes/:id',  verifyUser, getRecipeById);
-router.post('/recipes', verifyUser, createRecipe);
-router.patch('/recipes/:id', verifyUser, updateRecipe);
-router.delete('/recipes/:id', verifyUser, deleteRecipe);
-
-// router.get('/recipes', verifyUser, adminOnly, getRecipe);
-// router.get('/recipes/:id', verifyUser, adminOnly, getRecipeById);
-// router.post('/recipes', verifyUser, adminOnly, createRecipe);
-// router.patch('/recipes/:id', verifyUser, adminOnly, updateRecipe);
-// router.delete('/recipes/:id', verifyUser, adminOnly, deleteRecipe);
-
+router.get('/recipes',  getRecipe);
+router.get('/recipes/:id',   getRecipeById);
+router.post('/recipes',  createRecipe);
+router.patch('/recipes/:id',  updateRecipe);
+router.delete('/recipes/:id',  deleteRecipe);
 
 export default router;

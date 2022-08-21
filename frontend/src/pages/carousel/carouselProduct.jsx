@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import {
-    Col,
     Container,
-    Row,
     Button,
-    Card,
-    Pagination,
     Modal
 } from 'react-bootstrap';
 
 import Carousel from 'react-bootstrap/Carousel';
 import FormRecipe from '../recipe/form';
-import Login from '../Login';
-import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
 
 
 
@@ -21,38 +14,23 @@ const CarouselProduct = () => {
     const [index, setIndex] = useState(0);
     const [formType, setFormType] = useState(null)
     const [formVisible, setFormVisible] = useState(false)
-    const navigate = useNavigate();
+    const isAuthenticated = window.sessionStorage.getItem("Logged")
 
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex);
     };
 
     const handleAddRecipe = () => {
-        setFormType('create')
-        setFormVisible(true)
+        if(isAuthenticated){
+            setFormType('create')
+            setFormVisible(true)
+        } else {
+            window.location.href = "/"
+        }
+        
     }
 
-    const Login = async () => {
-        const[email, setEmail] =useState('');
-        const[password, setPassword] =useState('');
-        const[msg, setMsg]=useState('');
-        const navigate = useNavigate();
     
-        const Auth = async(e) =>{
-            e.preventDefault();
-            try{
-                await axios.post('http://localhost:5000/login',{
-                    email: email,
-                    password: password,
-                });
-                navigate('/mainpage')
-            } catch(error) {
-                if(error.response){
-                    setMsg(error.response.data.msg);
-                }
-            }
-        }
-        }
 
     return (
         <div className='d-flex container-fluid'>
@@ -94,8 +72,8 @@ const CarouselProduct = () => {
                 </Carousel>
 
                 <div className='d-flex justify-content-center mt-3'>
-                    {/* <Button variant='primary' onClick={() => handleAddRecipe()}>Add New Recipe</Button> */}
-                    <Button variant='primary' onClick={Login}>Add New Recipe</Button>
+                    <Button variant='primary' onClick={() => handleAddRecipe()}>Add New Recipe</Button>
+                    
                 </div>
             </Container>
 
